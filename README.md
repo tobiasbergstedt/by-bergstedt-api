@@ -1,4 +1,4 @@
-#Strapi api for byBergstedt website
+# Strapi api for byBergstedt website
 
 ### 🚀 Getting started with Strapi
 
