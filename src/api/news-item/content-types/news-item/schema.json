@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "items",
+  "collectionName": "news_items",
   "info": {
-    "singularName": "item",
-    "pluralName": "items",
-    "displayName": "Product",
+    "singularName": "news-item",
+    "pluralName": "news-items",
+    "displayName": "NewsItem",
     "description": ""
   },
   "options": {
@@ -18,8 +18,6 @@
   "attributes": {
     "title": {
       "type": "string",
-      "required": true,
-      "unique": true,
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -27,42 +25,36 @@
       }
     },
     "description": {
-      "type": "richtext",
-      "required": true,
+      "type": "string",
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
       }
     },
-    "price": {
-      "type": "integer",
-      "required": true,
+    "linkTo": {
+      "type": "string",
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
       }
     },
-    "images": {
+    "image": {
       "type": "media",
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
-        "videos"
+        "files",
+        "videos",
+        "audios"
       ],
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
       }
-    },
-    "categories": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::category.category",
-      "mappedBy": "items"
     }
   }
 }
