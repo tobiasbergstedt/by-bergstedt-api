@@ -26,15 +26,6 @@
         }
       }
     },
-    "description": {
-      "type": "richtext",
-      "required": true,
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
-    },
     "price": {
       "type": "integer",
       "required": true,
@@ -85,6 +76,15 @@
         "uuid-format": "^[A-Za-z0-9]{10}$"
       },
       "customField": "plugin::strapi-advanced-uuid.uuid"
+    },
+    "description": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "text",
+      "required": true
     }
   }
 }
