@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contact_forms",
+  "info": {
+    "singularName": "contact-form",
+    "pluralName": "contact-forms",
+    "displayName": "ContactForm",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "text": {
+      "type": "text"
+    },
+    "from": {
+      "type": "string"
+    },
+    "to": {
+      "type": "string",
+      "default": "info@tobiasbergstedt.se"
+    },
+    "subject": {
+      "type": "string"
+    }
+  }
+}

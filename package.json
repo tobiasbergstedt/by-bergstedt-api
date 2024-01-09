@@ -14,8 +14,10 @@
     "strapi": "strapi"
   },
   "dependencies": {
+    "@strapi/plugin-email": "^4.15.5",
     "@strapi/plugin-i18n": "4.13.6",
     "@strapi/plugin-users-permissions": "4.13.6",
+    "@strapi/provider-email-sendgrid": "^4.15.5",
     "@strapi/strapi": "^4.13.6",
     "better-sqlite3": "8.6.0",
     "strapi-advanced-uuid": "^1.1.4"

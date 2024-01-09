@@ -720,6 +720,11 @@ export interface ApiAboutAbout extends Schema.CollectionType {
       'oneToMany',
       'api::testimonial.testimonial'
     >;
+    pattern: Attribute.Relation<
+      'api::about.about',
+      'manyToOne',
+      'api::pattern.pattern'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -894,6 +899,39 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
   };
 }
 
+export interface ApiContactFormContactForm extends Schema.CollectionType {
+  collectionName: 'contact_forms';
+  info: {
+    singularName: 'contact-form';
+    pluralName: 'contact-forms';
+    displayName: 'ContactForm';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    text: Attribute.Text;
+    from: Attribute.String;
+    to: Attribute.String & Attribute.DefaultTo<'info@tobiasbergstedt.se'>;
+    subject: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::contact-form.contact-form',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::contact-form.contact-form',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiEventEvent extends Schema.CollectionType {
   collectionName: 'events';
   info: {
@@ -1064,6 +1102,66 @@ export interface ApiItemItem extends Schema.CollectionType {
   };
 }
 
+export interface ApiMaterialMaterial extends Schema.CollectionType {
+  collectionName: 'materials';
+  info: {
+    singularName: 'material';
+    pluralName: 'materials';
+    displayName: 'Material';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    slug: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    patterns: Attribute.Relation<
+      'api::material.material',
+      'manyToMany',
+      'api::pattern.pattern'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::material.material',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::material.material',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::material.material',
+      'oneToMany',
+      'api::material.material'
+    >;
+    locale: Attribute.String;
+  };
+}
+
 export interface ApiNewsItemNewsItem extends Schema.CollectionType {
   collectionName: 'news_items';
   info: {
@@ -1133,6 +1231,72 @@ export interface ApiNewsItemNewsItem extends Schema.CollectionType {
       'api::news-item.news-item',
       'oneToMany',
       'api::news-item.news-item'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiPatternPattern extends Schema.CollectionType {
+  collectionName: 'patterns';
+  info: {
+    singularName: 'pattern';
+    pluralName: 'patterns';
+    displayName: 'Pattern';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    slug: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    texture: Attribute.Media &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    materials: Attribute.Relation<
+      'api::pattern.pattern',
+      'manyToMany',
+      'api::material.material'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::pattern.pattern',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::pattern.pattern',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::pattern.pattern',
+      'oneToMany',
+      'api::pattern.pattern'
     >;
     locale: Attribute.String;
   };
@@ -1230,9 +1394,12 @@ declare module '@strapi/types' {
       'api::about.about': ApiAboutAbout;
       'api::about-me.about-me': ApiAboutMeAboutMe;
       'api::category.category': ApiCategoryCategory;
+      'api::contact-form.contact-form': ApiContactFormContactForm;
       'api::event.event': ApiEventEvent;
       'api::item.item': ApiItemItem;
+      'api::material.material': ApiMaterialMaterial;
       'api::news-item.news-item': ApiNewsItemNewsItem;
+      'api::pattern.pattern': ApiPatternPattern;
       'api::testimonial.testimonial': ApiTestimonialTestimonial;
     }
   }

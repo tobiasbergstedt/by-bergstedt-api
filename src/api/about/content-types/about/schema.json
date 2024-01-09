@@ -52,6 +52,12 @@
       "relation": "oneToMany",
       "target": "api::testimonial.testimonial",
       "mappedBy": "about"
+    },
+    "pattern": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::pattern.pattern",
+      "inversedBy": "materials"
     }
   }
 }
