@@ -1,11 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "categories",
+  "collectionName": "product_categories",
   "info": {
-    "singularName": "category",
-    "pluralName": "categories",
-    "displayName": "category",
-    "description": ""
+    "singularName": "product-category",
+    "pluralName": "product-categories",
+    "displayName": "productCategory"
   },
   "options": {
     "draftAndPublish": true
@@ -17,29 +16,29 @@
   },
   "attributes": {
     "name": {
-      "type": "string",
-      "required": true,
-      "unique": true,
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
-      }
+      },
+      "type": "string",
+      "required": true,
+      "unique": false
     },
-    "items": {
+    "products": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::item.item",
-      "inversedBy": "categories"
+      "mappedBy": "product_category"
     },
     "slug": {
-      "type": "string",
-      "required": true,
       "pluginOptions": {
         "i18n": {
-          "localized": false
+          "localized": true
         }
-      }
+      },
+      "type": "string",
+      "required": true
     },
     "singleName": {
       "pluginOptions": {
@@ -48,8 +47,7 @@
         }
       },
       "type": "string",
-      "required": true,
-      "unique": true
+      "required": true
     }
   }
 }

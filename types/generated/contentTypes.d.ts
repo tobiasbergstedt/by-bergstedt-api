@@ -482,6 +482,97 @@ export interface PluginUploadFolder extends Schema.CollectionType {
   };
 }
 
+export interface PluginContentReleasesRelease extends Schema.CollectionType {
+  collectionName: 'strapi_releases';
+  info: {
+    singularName: 'release';
+    pluralName: 'releases';
+    displayName: 'Release';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    releasedAt: Attribute.DateTime;
+    actions: Attribute.Relation<
+      'plugin::content-releases.release',
+      'oneToMany',
+      'plugin::content-releases.release-action'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::content-releases.release',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::content-releases.release',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface PluginContentReleasesReleaseAction
+  extends Schema.CollectionType {
+  collectionName: 'strapi_release_actions';
+  info: {
+    singularName: 'release-action';
+    pluralName: 'release-actions';
+    displayName: 'Release Action';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    type: Attribute.Enumeration<['publish', 'unpublish']> & Attribute.Required;
+    entry: Attribute.Relation<
+      'plugin::content-releases.release-action',
+      'morphToOne'
+    >;
+    contentType: Attribute.String & Attribute.Required;
+    release: Attribute.Relation<
+      'plugin::content-releases.release-action',
+      'manyToOne',
+      'plugin::content-releases.release'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::content-releases.release-action',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::content-releases.release-action',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginI18NLocale extends Schema.CollectionType {
   collectionName: 'i18n_locale';
   info: {
@@ -830,75 +921,6 @@ export interface ApiAboutMeAboutMe extends Schema.SingleType {
   };
 }
 
-export interface ApiCategoryCategory extends Schema.CollectionType {
-  collectionName: 'categories';
-  info: {
-    singularName: 'category';
-    pluralName: 'categories';
-    displayName: 'category';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    name: Attribute.String &
-      Attribute.Required &
-      Attribute.Unique &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    items: Attribute.Relation<
-      'api::category.category',
-      'manyToMany',
-      'api::item.item'
-    >;
-    slug: Attribute.String &
-      Attribute.Required &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    singleName: Attribute.String &
-      Attribute.Required &
-      Attribute.Unique &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::category.category',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::category.category',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    localizations: Attribute.Relation<
-      'api::category.category',
-      'oneToMany',
-      'api::category.category'
-    >;
-    locale: Attribute.String;
-  };
-}
-
 export interface ApiContactFormContactForm extends Schema.CollectionType {
   collectionName: 'contact_forms';
   info: {
@@ -1046,11 +1068,6 @@ export interface ApiItemItem extends Schema.CollectionType {
           localized: false;
         };
       }>;
-    categories: Attribute.Relation<
-      'api::item.item',
-      'manyToMany',
-      'api::category.category'
-    >;
     amount: Attribute.Integer &
       Attribute.Required &
       Attribute.SetPluginOptions<{
@@ -1084,6 +1101,18 @@ export interface ApiItemItem extends Schema.CollectionType {
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
+        };
+      }>;
+    product_category: Attribute.Relation<
+      'api::item.item',
+      'manyToMany',
+      'api::product-category.product-category'
+    >;
+    weight: Attribute.Integer &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
         };
       }>;
     createdAt: Attribute.DateTime;
@@ -1236,6 +1265,43 @@ export interface ApiNewsItemNewsItem extends Schema.CollectionType {
   };
 }
 
+export interface ApiOrderOrder extends Schema.CollectionType {
+  collectionName: 'orders';
+  info: {
+    singularName: 'order';
+    pluralName: 'orders';
+    displayName: 'Order';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    totalSum: Attribute.Integer & Attribute.Required;
+    shipping: Attribute.Integer & Attribute.Required;
+    shippingInfo: Attribute.String & Attribute.Required;
+    paymentMethod: Attribute.String & Attribute.Required;
+    orderDetails: Attribute.Component<'api.shopping-cart-item', true> &
+      Attribute.Required;
+    userData: Attribute.Component<'api.user-data'> & Attribute.Required;
+    orderId: Attribute.String & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::order.order',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::order.order',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiPatternPattern extends Schema.CollectionType {
   collectionName: 'patterns';
   info: {
@@ -1299,6 +1365,143 @@ export interface ApiPatternPattern extends Schema.CollectionType {
       'api::pattern.pattern'
     >;
     locale: Attribute.String;
+  };
+}
+
+export interface ApiProductCategoryProductCategory
+  extends Schema.CollectionType {
+  collectionName: 'product_categories';
+  info: {
+    singularName: 'product-category';
+    pluralName: 'product-categories';
+    displayName: 'productCategory';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    products: Attribute.Relation<
+      'api::product-category.product-category',
+      'manyToMany',
+      'api::item.item'
+    >;
+    slug: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    singleName: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::product-category.product-category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::product-category.product-category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::product-category.product-category',
+      'oneToMany',
+      'api::product-category.product-category'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiShippingRateShippingRate extends Schema.CollectionType {
+  collectionName: 'shipping_rates';
+  info: {
+    singularName: 'shipping-rate';
+    pluralName: 'shipping-rates';
+    displayName: 'shippingRate';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    priceSE: Attribute.Integer & Attribute.Required;
+    name: Attribute.String;
+    priceEU: Attribute.Integer & Attribute.Required;
+    priceOther: Attribute.Integer & Attribute.Required;
+    maxWeight: Attribute.Integer & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::shipping-rate.shipping-rate',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::shipping-rate.shipping-rate',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiShoppingCartItemShoppingCartItem
+  extends Schema.CollectionType {
+  collectionName: 'shopping_cart_items';
+  info: {
+    singularName: 'shopping-cart-item';
+    pluralName: 'shopping-cart-items';
+    displayName: 'shoppingCartItem';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    amount: Attribute.Integer & Attribute.Required;
+    productId: Attribute.String & Attribute.Required;
+    image: Attribute.String & Attribute.Required;
+    price: Attribute.Integer & Attribute.Required;
+    weight: Attribute.Integer & Attribute.Required;
+    name: Attribute.Component<'api.name'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::shopping-cart-item.shopping-cart-item',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::shopping-cart-item.shopping-cart-item',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
   };
 }
 
@@ -1387,19 +1590,24 @@ declare module '@strapi/types' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
+      'plugin::content-releases.release': PluginContentReleasesRelease;
+      'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::about.about': ApiAboutAbout;
       'api::about-me.about-me': ApiAboutMeAboutMe;
-      'api::category.category': ApiCategoryCategory;
       'api::contact-form.contact-form': ApiContactFormContactForm;
       'api::event.event': ApiEventEvent;
       'api::item.item': ApiItemItem;
       'api::material.material': ApiMaterialMaterial;
       'api::news-item.news-item': ApiNewsItemNewsItem;
+      'api::order.order': ApiOrderOrder;
       'api::pattern.pattern': ApiPatternPattern;
+      'api::product-category.product-category': ApiProductCategoryProductCategory;
+      'api::shipping-rate.shipping-rate': ApiShippingRateShippingRate;
+      'api::shopping-cart-item.shopping-cart-item': ApiShoppingCartItemShoppingCartItem;
       'api::testimonial.testimonial': ApiTestimonialTestimonial;
     }
   }

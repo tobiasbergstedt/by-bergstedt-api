@@ -1,11 +1,12 @@
 module.exports = {
   async sendEmail(ctx) {
     try {
-      const { to, from, subject, html } = ctx.request.body;
+      const { to, from, bcc, subject, html } = ctx.request.body;
 
       await strapi.plugins["email"].services.email.send({
         to: to,
         from: from,
+        bcc: bcc,
         subject: subject,
         html: html,
       });

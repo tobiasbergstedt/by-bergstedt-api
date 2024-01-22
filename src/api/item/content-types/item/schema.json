@@ -49,12 +49,6 @@
         }
       }
     },
-    "categories": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::category.category",
-      "mappedBy": "items"
-    },
     "amount": {
       "pluginOptions": {
         "i18n": {
@@ -84,6 +78,21 @@
         }
       },
       "type": "text",
+      "required": true
+    },
+    "product_category": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product-category.product-category",
+      "inversedBy": "products"
+    },
+    "weight": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "integer",
       "required": true
     }
   }

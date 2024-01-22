@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_api_shopping_cart_items",
+  "info": {
+    "displayName": "shoppingCartItem",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "amount": {
+      "required": false,
+      "type": "integer"
+    },
+    "image": {
+      "type": "string",
+      "required": false
+    },
+    "name": {
+      "type": "component",
+      "repeatable": false,
+      "component": "api.name"
+    },
+    "price": {
+      "type": "integer",
+      "required": false
+    },
+    "productId": {
+      "type": "string",
+      "required": false
+    },
+    "weight": {
+      "type": "integer",
+      "required": false
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "collectionName": "components_api_user_data",
+  "info": {
+    "displayName": "userData",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": false
+    },
+    "company": {
+      "type": "string",
+      "required": false
+    },
+    "address": {
+      "type": "string",
+      "required": false
+    },
+    "email": {
+      "type": "string",
+      "required": false
+    },
+    "phoneNumber": {
+      "type": "string",
+      "required": false
+    },
+    "message": {
+      "type": "string",
+      "required": false
+    }
+  }
+}

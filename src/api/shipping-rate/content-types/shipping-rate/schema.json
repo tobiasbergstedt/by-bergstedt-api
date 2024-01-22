@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "shipping_rates",
+  "info": {
+    "singularName": "shipping-rate",
+    "pluralName": "shipping-rates",
+    "displayName": "shippingRate",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "priceSE": {
+      "type": "integer",
+      "required": true,
+      "unique": false
+    },
+    "name": {
+      "type": "string"
+    },
+    "priceEU": {
+      "type": "integer",
+      "required": true
+    },
+    "priceOther": {
+      "type": "integer",
+      "required": true
+    },
+    "maxWeight": {
+      "type": "integer",
+      "required": true
+    }
+  }
+}
