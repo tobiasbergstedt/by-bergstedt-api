@@ -66,6 +66,18 @@
         }
       },
       "type": "text"
+    },
+    "uuid": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "customField",
+      "options": {
+        "uuid-format": "^[A-Za-z0-9]{10}$"
+      },
+      "customField": "plugin::strapi-advanced-uuid.uuid"
     }
   }
 }
