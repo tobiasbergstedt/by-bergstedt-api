@@ -979,7 +979,6 @@ export interface ApiEventEvent extends Schema.CollectionType {
         };
       }>;
     linkTo: Attribute.String &
-      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: false;
@@ -1000,6 +999,13 @@ export interface ApiEventEvent extends Schema.CollectionType {
         };
       }>;
     image: Attribute.Media &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    location: Attribute.String &
+      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: false;
@@ -1220,13 +1226,6 @@ export interface ApiNewsItemNewsItem extends Schema.CollectionType {
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
-        };
-      }>;
-    linkTo: Attribute.String &
-      Attribute.Required &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
         };
       }>;
     image: Attribute.Media &

@@ -34,15 +34,6 @@
       },
       "required": true
     },
-    "linkTo": {
-      "type": "string",
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
-      "required": true
-    },
     "image": {
       "type": "media",
       "multiple": false,

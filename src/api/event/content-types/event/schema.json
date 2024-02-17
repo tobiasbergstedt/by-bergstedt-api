@@ -32,7 +32,7 @@
           "localized": false
         }
       },
-      "required": true
+      "required": false
     },
     "date": {
       "pluginOptions": {
@@ -64,6 +64,15 @@
           "localized": false
         }
       }
+    },
+    "location": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "string",
+      "required": true
     }
   }
 }
