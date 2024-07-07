@@ -514,6 +514,10 @@ export interface PluginContentReleasesRelease extends Schema.CollectionType {
     releasedAt: Attribute.DateTime;
     scheduledAt: Attribute.DateTime;
     timezone: Attribute.String;
+    status: Attribute.Enumeration<
+      ['ready', 'blocked', 'failed', 'done', 'empty']
+    > &
+      Attribute.Required;
     actions: Attribute.Relation<
       'plugin::content-releases.release',
       'oneToMany',
@@ -568,6 +572,7 @@ export interface PluginContentReleasesReleaseAction
       'manyToOne',
       'plugin::content-releases.release'
     >;
+    isEntryValid: Attribute.Boolean;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -814,7 +819,7 @@ export interface ApiAboutAbout extends Schema.CollectionType {
           localized: true;
         };
       }>;
-    profileImage: Attribute.Media &
+    profileImage: Attribute.Media<'images'> &
       Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
@@ -886,7 +891,7 @@ export interface ApiAboutMeAboutMe extends Schema.SingleType {
           localized: true;
         };
       }>;
-    profileImage: Attribute.Media &
+    profileImage: Attribute.Media<'images'> &
       Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
@@ -1013,7 +1018,7 @@ export interface ApiEventEvent extends Schema.CollectionType {
           localized: true;
         };
       }>;
-    image: Attribute.Media &
+    image: Attribute.Media<'images'> &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: false;
@@ -1082,7 +1087,7 @@ export interface ApiItemItem extends Schema.CollectionType {
           localized: false;
         };
       }>;
-    images: Attribute.Media &
+    images: Attribute.Media<'images' | 'videos', true> &
       Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
@@ -1246,7 +1251,7 @@ export interface ApiNewsItemNewsItem extends Schema.CollectionType {
           localized: true;
         };
       }>;
-    image: Attribute.Media &
+    image: Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: false;
@@ -1368,7 +1373,7 @@ export interface ApiPatternPattern extends Schema.CollectionType {
           localized: false;
         };
       }>;
-    texture: Attribute.Media &
+    texture: Attribute.Media<'images' | 'files'> &
       Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
@@ -1570,7 +1575,7 @@ export interface ApiTestimonialTestimonial extends Schema.CollectionType {
           localized: true;
         };
       }>;
-    image: Attribute.Media &
+    image: Attribute.Media<'images'> &
       Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
