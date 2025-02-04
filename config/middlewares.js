@@ -28,6 +28,14 @@ module.exports = [
       },
     },
   },
+  {
+    name: "strapi::cors",
+    config: {
+      origin: ["https://tobiasbergstedt.se"],
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+    },
+  },
   "strapi::cors",
   "strapi::poweredBy",
   "strapi::logger",
