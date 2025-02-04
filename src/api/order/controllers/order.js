@@ -36,8 +36,15 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
         data: response.data,
       });
     } catch (err) {
-      console.error("Error creating order:", err);
-      return ctx.badRequest("Order creation failed");
+      // Log detailed error information
+      console.error("Error creating order:", err.message); // Log error message
+      if (err.response) {
+        // Log the response from axios (usually contains status code and details)
+        console.error("Axios error response:", err.response.data);
+      }
+      console.error("Error stack trace:", err.stack); // Log the stack trace for debugging
+
+      return ctx.badRequest(err.message); // Include error message in the response
     }
   },
 }));
