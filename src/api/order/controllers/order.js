@@ -1,7 +1,6 @@
 "use strict";
 
 const { createCoreController } = require("@strapi/strapi").factories;
-const axios = require("axios"); // You can use axios or fetch to make external requests
 
 module.exports = createCoreController("api::order.order", ({ strapi }) => ({
   async create(ctx) {
@@ -15,14 +14,23 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
       const apiKey = process.env.STRAPI_API_KEY; // Securely access your API key from environment variables
       const PUBLIC_URL = process.env.PUBLIC_URL; // Securely access your API key from environment variables
 
-      const response = await axios.post(PUBLIC_URL + "/orders", data, {
+      const response = await fetch(PUBLIC_URL + "/orders", {
+        method: "POST",
         headers: {
-          Authorization: `bearer ${apiKey}`,
+          Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
         },
+        body: JSON.stringify(data), // Convert `data` to a JSON string
       });
 
-      // // Optionally, handle email confirmation here, or in a separate endpoint
+      // Check if the response is successful (HTTP 200-299 range)
+      if (!response.ok) {
+        throw new Error(`Failed to create order: ${response.statusText}`);
+      }
+
+      const responseData = await response.json(); // Parse the response body as JSON
+
+      // Optionally, handle email confirmation here, or in a separate endpoint
       // await strapi.plugins["email"].services.email.send({
       //   to: to,
       //   from: from,
@@ -33,18 +41,18 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
 
       return ctx.send({
         message: "Order placed successfully",
-        data: response.data,
+        data: responseData,
       });
     } catch (err) {
       // Log detailed error information
       console.error("Error creating order:", err.message); // Log error message
       if (err.response) {
-        // Log the response from axios (usually contains status code and details)
-        console.error("Axios error response:", err.response.data);
+        // Log the response from fetch if available
+        console.error("Fetch error response:", err.response);
       }
       console.error("Error stack trace:", err.stack); // Log the stack trace for debugging
 
-      return ctx.badRequest(err.message); // Include error message in the response
+      return ctx.badRequest("Order creation failed: " + err.message); // Include error message in the response
     }
   },
 }));
