@@ -18,6 +18,8 @@ module.exports = {
         strapiId, // The item ID
         { data: ctx.request.body } // The body data for the update
       );
+      console.log(ctx.request.body);
+      console.log(updatedProduct);
       return ctx.send(updatedProduct); // Send the updated item as a response
     } catch (error) {
       console.error("Error updating product:", error); // Log detailed error information
