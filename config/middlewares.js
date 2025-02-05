@@ -31,8 +31,8 @@ module.exports = [
   {
     name: "strapi::cors",
     config: {
-      origin: ["https://tobiasbergstedt.se"],
-      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      origin: ["*"],
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
       allowedHeaders: ["Content-Type", "Authorization"],
     },
   },
