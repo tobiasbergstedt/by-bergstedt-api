@@ -15,13 +15,13 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
         .create({ data });
 
       // Optionally, handle email confirmation here, or in a separate endpoint
-      // await strapi.plugins["email"].services.email.send({
-      //   to: to,
-      //   from: from,
-      //   bcc: bcc,
-      //   subject: subject,
-      //   html: html,
-      // });
+      await strapi.plugins["email"].services.email.send({
+        to: to,
+        from: from,
+        bcc: bcc,
+        subject: subject,
+        html: html,
+      });
 
       // Return success response
       return ctx.send({
