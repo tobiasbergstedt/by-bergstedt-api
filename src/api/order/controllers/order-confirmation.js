@@ -4,18 +4,10 @@ module.exports = {
       const { to, from, bcc, subject, html } = ctx.request.body;
 
       await strapi.plugins["email"].services.email.send({
-        to: to,
+        to: [to, from],
         from: from,
         bcc: bcc,
         subject: subject,
-        html: html,
-      });
-
-      await strapi.plugins["email"].services.email.send({
-        to: from,
-        from: from,
-        bcc: bcc,
-        subject: "Ny beställning på tobiasbergstedt.se",
         html: html,
       });
 
