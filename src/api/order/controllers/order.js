@@ -5,7 +5,7 @@ const { createCoreController } = require("@strapi/strapi").factories;
 module.exports = createCoreController("api::order.order", ({ strapi }) => ({
   async create(ctx) {
     // @ts-ignore
-    console.log("Request for by Bergstedt: " + ctx.request.body);
+    console.log("Request for by Bergstedt: " + ctx.request.body.data);
     try {
       // @ts-ignore
       const { body } = ctx.request;
