@@ -2,7 +2,7 @@ module.exports = {
   routes: [
     {
       method: "PATCH",
-      path: "/items/:uuid",
+      path: "/items/:strapiId",
       handler: "update-item.updateItem",
     },
   ],

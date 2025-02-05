@@ -1,13 +1,18 @@
 import type { Schema, Attribute } from '@strapi/strapi';
 
-export interface ApiName extends Schema.Component {
-  collectionName: 'components_api_names';
+export interface ApiUserData extends Schema.Component {
+  collectionName: 'components_api_user_data';
   info: {
-    displayName: 'name';
+    displayName: 'userData';
+    description: '';
   };
   attributes: {
-    sv: Attribute.String;
-    en: Attribute.String;
+    name: Attribute.String;
+    company: Attribute.String;
+    address: Attribute.String;
+    email: Attribute.String;
+    phoneNumber: Attribute.String;
+    message: Attribute.String;
   };
 }
 
@@ -27,28 +32,23 @@ export interface ApiShoppingCartItem extends Schema.Component {
   };
 }
 
-export interface ApiUserData extends Schema.Component {
-  collectionName: 'components_api_user_data';
+export interface ApiName extends Schema.Component {
+  collectionName: 'components_api_names';
   info: {
-    displayName: 'userData';
-    description: '';
+    displayName: 'name';
   };
   attributes: {
-    name: Attribute.String;
-    company: Attribute.String;
-    address: Attribute.String;
-    email: Attribute.String;
-    phoneNumber: Attribute.String;
-    message: Attribute.String;
+    sv: Attribute.String;
+    en: Attribute.String;
   };
 }
 
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
-      'api.name': ApiName;
-      'api.shopping-cart-item': ApiShoppingCartItem;
       'api.user-data': ApiUserData;
+      'api.shopping-cart-item': ApiShoppingCartItem;
+      'api.name': ApiName;
     }
   }
 }
