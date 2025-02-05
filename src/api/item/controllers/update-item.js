@@ -16,7 +16,7 @@ module.exports = {
       const updatedProduct = await strapi.entityService.update(
         "api::item.item", // The name of the collection type
         strapiId, // The item ID
-        { data: ctx.request.body } // The body data for the update
+        { data: ctx.request.body.data } // The body data for the update
       );
       console.log(ctx.request.body);
       console.log(updatedProduct);
