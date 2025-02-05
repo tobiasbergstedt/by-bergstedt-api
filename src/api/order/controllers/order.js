@@ -4,37 +4,15 @@ const { createCoreController } = require("@strapi/strapi").factories;
 
 module.exports = createCoreController("api::order.order", ({ strapi }) => ({
   async create(ctx) {
-    // Log the HTTP method and URL
-    console.log("Incoming Request:", ctx.request.method, ctx.request.url);
-
-    // Log the request body as a string
-    // @ts-ignore
-    console.log("Request Body:", JSON.stringify(ctx.request.body, null, 2)); // Pretty-print with indentation
-
     try {
+      // Extract the order data from the request body
       // @ts-ignore
-      const { body } = ctx.request;
-      const { data, to, from, bcc, subject, html } = body;
+      const { data, to, from, bcc, subject, html } = ctx.request.body;
 
-      // Here, you can send the order data to external services or databases securely
-      const apiKey = process.env.STRAPI_API_KEY; // Securely access your API key from environment variables
-      const PUBLIC_URL = process.env.PUBLIC_URL; // Securely access your API key from environment variables
-
-      const response = await fetch(PUBLIC_URL + "/orders", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data), // Convert `data` to a JSON string
-      });
-
-      // Check if the response is successful (HTTP 200-299 range)
-      if (!response.ok) {
-        throw new Error(`Failed to create order: ${response.statusText}`);
-      }
-
-      const responseData = await response.json(); // Parse the response body as JSON
+      // Create a new order in the database
+      const newOrder = await strapi
+        .service("api::order.order")
+        .create({ data });
 
       // Optionally, handle email confirmation here, or in a separate endpoint
       // await strapi.plugins["email"].services.email.send({
@@ -45,20 +23,17 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
       //   html: html,
       // });
 
+      // Return success response
       return ctx.send({
         message: "Order placed successfully",
-        data: responseData,
+        data: newOrder,
       });
     } catch (err) {
-      // Log detailed error information
-      console.error("Error creating order:", err.message); // Log error message
-      if (err.response) {
-        // Log the response from fetch if available
-        console.error("Fetch error response:", err.response);
-      }
-      console.error("Error stack trace:", err.stack); // Log the stack trace for debugging
+      // Log error details
+      console.error("Error creating order:", err);
 
-      return ctx.badRequest("Order creation failed: " + err.message); // Include error message in the response
+      // Return error response with detailed message
+      return ctx.badRequest("Order creation failed: " + err.message);
     }
   },
 }));
