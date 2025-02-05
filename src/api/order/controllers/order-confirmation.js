@@ -11,6 +11,14 @@ module.exports = {
         html: html,
       });
 
+      await strapi.plugins["email"].services.email.send({
+        to: from,
+        from: from,
+        bcc: bcc,
+        subject: "Ny beställning på tobiasbergstedt.se",
+        html: html,
+      });
+
       return ctx.send({ message: "Email sent successfully" });
     } catch (err) {
       console.log("Error sending email:", err);
