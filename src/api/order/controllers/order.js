@@ -4,7 +4,8 @@ const { createCoreController } = require("@strapi/strapi").factories;
 
 module.exports = createCoreController("api::order.order", ({ strapi }) => ({
   async create(ctx) {
-    console.log("Request for by Bergstedt: " + ctx.request);
+    // @ts-ignore
+    console.log("Request for by Bergstedt: " + ctx.request.body);
     try {
       // @ts-ignore
       const { body } = ctx.request;
@@ -14,7 +15,7 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
       const apiKey = process.env.STRAPI_API_KEY; // Securely access your API key from environment variables
       const PUBLIC_URL = process.env.PUBLIC_URL; // Securely access your API key from environment variables
 
-      const response = await fetch(PUBLIC_URL + "/api/orders", {
+      const response = await fetch(PUBLIC_URL + "/orders", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${apiKey}`,
