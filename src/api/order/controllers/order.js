@@ -4,8 +4,13 @@ const { createCoreController } = require("@strapi/strapi").factories;
 
 module.exports = createCoreController("api::order.order", ({ strapi }) => ({
   async create(ctx) {
+    // Log the HTTP method and URL
+    console.log("Incoming Request:", ctx.request.method, ctx.request.url);
+
+    // Log the request body as a string
     // @ts-ignore
-    console.log("Request for by Bergstedt: " + ctx.request.body.data);
+    console.log("Request Body:", JSON.stringify(ctx.request.body, null, 2)); // Pretty-print with indentation
+
     try {
       // @ts-ignore
       const { body } = ctx.request;
