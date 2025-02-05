@@ -4,7 +4,7 @@ module.exports = {
       const { to, from, bcc, subject, html } = ctx.request.body;
 
       await strapi.plugins["email"].services.email.send({
-        to: [to, from],
+        to: to,
         from: from,
         bcc: bcc,
         subject: subject,
